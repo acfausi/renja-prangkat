@@ -1,0 +1,288 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Program;
+use App\Models\Bidang;
+use App\Models\Kegiatan;
+use App\Models\Sub_kegiatan;
+use DB;
+
+class ProgramController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //Menampilkan data view
+
+        $program = Program::join('bidang', 'program.bidang_id','=','bidang.id')
+        ->select('program.*','bidang.nama_bidang as bidang')
+        ->get();
+        return view ('admin.program.index', compact('program'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //Mengarahkan ke folder program
+        $bidang = DB::table('bidang')->get();
+        $program = Program::join('bidang', 'program.bidang_id','=', 'bidang.id')
+        ->select('program.*', 'bidang.nama_bidang as bidang')
+        ->get();
+        return view ('admin.program.create', compact('program','bidang'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //function request create
+        DB::table('program')->insert([
+            'kode' => $request->kode,
+            'bidang_id' => $request->bidang_id,
+            'urusan' => $request->urusan,
+            'indikator' => $request->indikator,
+            'target_k' => $request->target_k,
+        ]);
+        return redirect('admin/program/detail/' . $request->kode);
+    }
+
+    /**
+     * Display the specified resource. 
+     */
+    
+     public function detail(string $id)
+    {
+        // dd($id);
+        //ini akan diarahkan ke file edit yang ada di view
+        $bidang = DB::table('bidang')->get();
+        $program = DB::table('program') ->where('kode', $id)->first();
+        $kegiatan = DB::table('kegiatan')->where('kode', $id)->get();
+        $sub_kegiatan = DB::table('sub_kegiatan')->get();
+        $id = $id;
+        return view ('admin.program.detail', compact('program','bidang','kegiatan', 'sub_kegiatan' ,'id'));
+    }
+
+    public function modif(Request $request)
+    {
+        //fungsi edit program
+        DB::table('program')->where('id',$request->id)->modif([
+            'kode' => $request->kode,
+            'bidang_id' => $request->bidang_id,
+            'urusan' => $request->urusan,
+            'indikator' => $request->indikator,
+            'target_k' => $request->target_k,
+
+        ]);
+        return redirect('admin/program/detail/' . $request->kode);
+
+    }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //ini akan diarahkan ke file edit yang ada di view
+        $bidang = DB::table('bidang')->get();
+        $program = DB::table('program')->where('id', $id)->get();
+        return view ('admin.program.edit', compact('program','bidang'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request)
+    {
+        //fungsi edit program
+        DB::table('program')->where('id',$request->id)->update([
+            'kode' => $request->kode,
+            'bidang_id' => $request->bidang_id,
+            'urusan' => $request->urusan,
+            'indikator' => $request->indikator,
+            'target_k' => $request->target_k,
+
+        ]);
+        return redirect('admin/program');
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //fungsi hapus data 
+        DB::table('program')->where('id', $id)->delete();
+        return back();
+    }
+
+    public function get_kegiatan() {
+        $id = $_GET['id'];
+
+        $kegiatan = DB::table('kegiatan')->where('kode', $id)->get();
+        echo '<option></option>';
+
+        foreach($kegiatan as $get) {
+            echo '<option value="'. $get->kode_k .'">' . $get->kode_k . " | " . $get->urusan . '</option>';
+        }
+    
+    }
+
+    public function show_modal() 
+    {
+        $id = $_GET['pilih'];
+        $kegiatan = DB::table('kegiatan')->where('kode_k', $id)->first();
+
+        echo '
+        <div class="modal-content" >
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">'. $kegiatan->kode_k .'</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <tr>
+                <td>Urusan</td>
+                <td>:</td>
+                <td>'. $kegiatan->urusan .'</td>
+            </tr>
+            <tr>
+                <td>Indikator</td>
+                <td>:</td>
+                <td>'. $kegiatan->indikator .'</td>
+            </tr>
+            <tr>
+                <td>Urusan</td>
+                <td>:</td>
+                <td>'. $kegiatan->target_k .'</td>
+            </tr>
+        </table>
+        <form method="POST" action="'. url('admin/sub_kegiatan/store')  .'">
+        '. csrf_field() .'
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Urusan</label> 
+                <div class="col-8">
+                <textarea name="urusan" id="urusan" cols="40" rows="5" class="form-control"></textarea>
+                </div>
+            </div> 
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Indikator</label> 
+                <div class="col-8">
+                <textarea name="indikator" id="indikator" cols="40" rows="5" class="form-control"></textarea>
+                </div>
+            </div> 
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Kinerja</label> 
+                <div class="col-8">
+                <input name="target_k" id="target_k" type="number" class="form-control">
+                </div>
+            </div>
+            <input type="text" id="kode_k" name="kode_k" hidden value="'. $kegiatan->kode_k .'">
+            <button type="button" class="btn btn-primary" onclick="tambahData()">Save</button>
+            </form>
+                </div>
+        </div>
+        ';
+    
+    
+    }
+
+
+    public function getsubkegiatan() {
+        $id = $_GET['id'];
+        $no = 1;
+        $sub_kegiatan = DB::table('sub_kegiatan')->where('kode_k', $id)->get();
+        foreach($sub_kegiatan as $get) {
+            echo '
+                <tr>
+                    <td>'.$no++.'</td>
+                    <td>'. $get->indikator .'</td>
+                    <td>'. $get->urusan .'</td>
+                    <td>'. $get->target_k .'</td>
+                    <td>    
+                    <button onclick="show_edit('.$get->id.')" data-bs-toggle="modal" data-bs-target="#editModal" class="btn btn-primary btn-sm " title="Update"><i
+                            class="bi bi-box-arrow-in-up"></i></button>
+
+                    <button onclick="hapusConfir('.$get->id.')" class="btn btn-danger btn-sm " title="Hapus"><i
+                            class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            ';
+        }
+    }
+    public function show_edit(){
+        $id = $_GET['id'];
+        $sub_kegiatan = DB::table('sub_kegiatan')->where('id', $id)->first();
+        echo'
+        <div class="modal-content" >
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">EDIT DATA</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <form method="POST">
+        '. csrf_field() .'
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Urusan</label> 
+                <div class="col-8">
+                <textarea name="urusan" id="sub_urusan"  cols="40" rows="5" class="form-control">'.$sub_kegiatan->urusan.'</textarea>
+                </div>
+            </div> 
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Indikator</label> 
+                <div class="col-8">
+                <textarea name="indikator" id="sub_indikator" cols="40" rows="5" class="form-control">'.$sub_kegiatan->indikator.'</textarea>
+                </div>
+            </div> 
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Kinerja</label> 
+                <div class="col-8">
+                <input name="target_k" id="sub_target_k" value="'.$sub_kegiatan->target_k.'" type="number" class="form-control">
+                </div>
+            </div>
+            <input type="text" id="id_k" name="id_k" hidden value="'. $sub_kegiatan->kode_k .'">
+            <input type="text" id="id" name="id" hidden value="'. $sub_kegiatan->id .'">
+            <button type="button" class="btn btn-primary" onclick="edit()">Save</button>
+            </form>
+                </div>
+        </div>
+        ';
+    }
+    public function editaction(Request $request){
+        DB::table('sub_kegiatan')->where('id',$request->id)->update([
+            'urusan' => $request->urusan,
+            'indikator' => $request->indikator,
+            'target_k' => $request->target_k,
+
+        ]);
+
+    }
+
+    public function hapus ($id){
+        DB::table('sub_kegiatan')->where('id', $id)->delete();
+        if ($id == 1) {
+            $success = true;
+            $message = "User deleted successfully";
+        } else {
+            $success = true;
+            $message = "User not found";
+        }
+
+        //  Return response
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
+    }
+    
+    
+
+
+}
+
