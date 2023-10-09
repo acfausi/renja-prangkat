@@ -9,10 +9,13 @@
 @section('isi')
 <form method="POST" action="{{url('admin/bidang/store')}}" enctype="multipart/form-data">
   {{csrf_field()}}
-  <div class="form-group row">
+  <div class="form-group row needs-validation" novalidate>
     <label for="text1" class="col-4 col-form-label">Nama bidang</label> 
     <div class="col-8">
-      <input id="text1" name="nama_bidang" type="text" class="form-control" placeholder="Masukan Nama Produk">
+      <input id="text1" name="nama_bidang" type="text" class="form-control @error ('nama_bidang') is-invalid @enderror" placeholder="Masukan Nama Produk">
+      @error('nama_bidang')
+              {{ $message }}
+      @enderror
     </div>
   </div>
   <div class="form-group row">

@@ -19,8 +19,12 @@
                             <label for="text3" class="col-4 col-form-label">Kode</label>
                             <div class="col-8">
                                 <input id="text3" name="kode" value="
-                                 {{$p->kode}}" type="text" class="form-control">
+                                 {{$p->kode}}" type="text" class="form-control @error ('kode') is-invalid @enderror">
+                                @error('kode')
+                                {{ $message }}
+                                @enderror
                             </div>
+
                         </div>
                         <div class="form-group row">
                             <label for="select" class="col-4 col-form-label">Bidang</label>
@@ -36,21 +40,35 @@
                             <label for="text3" class="col-4 col-form-label">Urusan</label>
                             <div class="col-8">
                                 <textarea id="textarea" name="urusan" value="
-                                   {{$p->urusan}}" cols="40" rows="5" class="form-control"></textarea>
+                                   {{$p->urusan}}" cols="40" rows="5"
+                                    class="form-control @error ('kode') is-invalid @enderror">{{$p->urusan}}</textarea>
+                                @error('urusan')
+                                {{ $message }}
+                                @enderror
                             </div>
+
                         </div>
                         <div class="form-group row">
                             <label for="text3" class="col-4 col-form-label">Indikator</label>
                             <div class="col-8">
                                 <textarea id="textarea" name="indikator" value="
-                                  {{$p->indikator}}" cols="40" rows="5" class="form-control"></textarea>
+                                  {{$p->indikator}}" cols="40" rows="5"
+                                    class="form-control @error ('indikator') is-invalid @enderror">{{$p->indikator}}</textarea>
+                                @error('indikator')
+                                {{ $message }}
+                                @enderror
                             </div>
+
                         </div>
                         <div class="form-group row">
                             <label for="text3" class="col-4 col-form-label">Kinerja</label>
                             <div class="col-8">
                                 <input id="text3" name="target_k" value="
-                                  {{$p->target_k}}" type="number" class="form-control">
+                                  {{$p->target_k}}" type="text"
+                                    class="form-control @error ('target_k') is-invalid @enderror">
+                                @error('target_k')
+                                {{ $message }}
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group row">

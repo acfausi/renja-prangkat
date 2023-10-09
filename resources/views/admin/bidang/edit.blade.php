@@ -17,7 +17,10 @@
       <div class="input-group">
         <div class="input-group-prepend">
         </div> 
-        <input id="text" name="nama_bidang" value="{{$b->nama_bidang}}" type="text" class="form-control">
+        <input id="text" name="nama_bidang" value="{{$b->nama_bidang}}" type="text" class="form-control @error ('nama_bidang') is-invalid @enderror">
+        @error('nama_bidang')
+              {{ $message }}
+      @enderror
       </div>
     </div>
   </div> 

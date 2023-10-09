@@ -35,6 +35,16 @@ class BidangController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+        ];
+        // function validasi
+        $this->validate($request,[
+            'nama_bidang'=> 'required'
+        ],$message);
+
         // function requuest create
         DB::table('bidang')->insert([
             'nama_bidang' => $request->nama_bidang,
@@ -65,6 +75,16 @@ class BidangController extends Controller
      */
     public function update(Request $request)
     {
+        // validasi
+        $message = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+        ];
+        // function validasi
+        $this->validate($request,[
+            'nama_bidang'=> 'required'
+        ],$message);
         //proses edit form
         DB::table('bidang')->where('id',$request->id)->update([
             'nama_bidang' => $request->nama_bidang,

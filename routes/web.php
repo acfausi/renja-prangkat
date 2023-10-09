@@ -44,6 +44,10 @@ Route::get('/program/delete/{id}', [programController::class, 'destroy']);
 Route::get('/program/getkegiatan',[ProgramController::class,'get_kegiatan']);
 Route::get('/program/showmodal',[ProgramController::class,'show_modal']);
 Route::get('/program/getsubkegiatan',[ProgramController::class,'getsubkegiatan']);
+// kegiatan
+Route::get('/program/show_ubah', [programController::class, 'show_ubah']);
+Route::post('/program/ubahaction', [programController::class, 'ubahaction']);
+// subkegiatan
 Route::get('/program/show_edit', [programController::class, 'show_edit']);
 Route::post('/program/editaction', [programController::class, 'editaction']);
 Route::post('/program/hapus/{id}', [programController::class, 'hapus'])->name('program.hapus');
@@ -53,8 +57,7 @@ Route::post('/program/hapus/{id}', [programController::class, 'hapus'])->name('p
 Route::get('/kegiatan',[KegiatanController::class,'index']);
 Route::get('/kegiatan/create/{id}',[KegiatanController::class,'create']);
 Route::post('/kegiatan/store',[KegiatanController::class,'store']);
-Route::get('/kegiatan/edit/{id}', [KegiatanController::class, 'edit']);
-Route::post('/kegiatan/update', [KegiatanController::class, 'update']);
+
 Route::get('/kegiatan/delete/{id}', [KegiatanController::class, 'destroy']);
 // // Rout Sub Kegiatan
 Route::get('/sub_kegiatan',[Sub_kegiatanController::class,'index']);

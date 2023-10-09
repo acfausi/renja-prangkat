@@ -29,6 +29,7 @@ class ProgramController extends Controller
      */
     public function create()
     {
+
         //Mengarahkan ke folder program
         $bidang = DB::table('bidang')->get();
         $program = Program::join('bidang', 'program.bidang_id','=', 'bidang.id')
@@ -42,6 +43,21 @@ class ProgramController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+            'numeric' => ':attribute wajib diisi angka ya cuy!!!',
+
+        ];
+        // function validasi
+        $this->validate($request,[
+            'kode'=> 'required|numeric',
+            'urusan'=> 'required',
+            'bidang_id'=> 'required',
+            'indikator'=> 'required',
+            'target_k'=> 'required|numeric'
+        ],$message);
         //function request create
         DB::table('program')->insert([
             'kode' => $request->kode,
@@ -99,6 +115,21 @@ class ProgramController extends Controller
      */
     public function update(Request $request)
     {
+        $message = [
+            'required' => ':attribute wajib diisi cuy!!!',
+            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
+            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+            'numeric' => ':attribute wajib diisi angka ya cuy!!!',
+
+        ];
+        // function validasi
+        $this->validate($request,[
+            'kode'=> 'required|numeric',
+            'urusan'=> 'required',
+            'bidang_id'=> 'required',
+            'indikator'=> 'required',
+            'target_k'=> 'required|numeric'
+        ],$message);
         //fungsi edit program
         DB::table('program')->where('id',$request->id)->update([
             'kode' => $request->kode,
@@ -216,6 +247,54 @@ class ProgramController extends Controller
             ';
         }
     }
+    public function show_ubah(){
+        $id = $_GET['id'];
+        $kegiatan = DB::table('kegiatan')->where('id', $id)->first();
+        echo'
+        <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">EDIT DATA</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <form method="POST">
+        '.csrf_field().'
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Urusan</label> 
+                <div class="col-8">
+                <textarea name="urusan" id="k_urusan"  cols="40" rows="5" class="form-control">'.$kegiatan->urusan.'</textarea>
+                </div>
+            </div> 
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Indikator</label> 
+                <div class="col-8">
+                <textarea name="indikator" id="k_indikator" cols="40" rows="5" class="form-control">'.$kegiatan->indikator.'</textarea>
+                </div>
+            </div> 
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Kinerja</label> 
+                <div class="col-8">
+                <input name="target_k" id="k_target_k" value="'.$kegiatan->target_k.'" type="number" class="form-control">
+                </div>
+            </div>
+            <input type="text" id="id_p" name="kode" hidden value="'.$kegiatan->kode.'">
+            <input type="text" id="id" name="id" hidden value="'.$kegiatan->id.'">
+            <button type="button" class="btn btn-primary" onclick="ubah()">Save</button>
+            </form>
+                </div>
+        </div>
+        ';
+    }
+
+    public function ubahaction(Request $request){
+        DB::table('kegiatan')->where('id',$request->id)->update([
+            'urusan' => $request->urusan,
+            'indikator' => $request->indikator,
+            'target_k' => $request->target_k,
+        ]);
+
+    }
+
     public function show_edit(){
         $id = $_GET['id'];
         $sub_kegiatan = DB::table('sub_kegiatan')->where('id', $id)->first();

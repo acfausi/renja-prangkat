@@ -66,19 +66,11 @@ class KegiatanController extends Controller
      */
     public function edit(string $id)
     {
-        // dd($id);
-        //ini akan diarahkan ke file edit yang ada di view
-        // $kegiatan = DB::table('kegiatan')->get(); 
-        // $program = DB::table('program')->where('kode', $id)->first();
-        // return view ('admin.kegiatan.edit', compact('kegiatan','program'));
-        $kegiatan = Kegiatan::join('program', 'kegiatan.id','=','program.id')
-        ->select('kegiatan.*','program.kode as program')
-        ->get();
-        // dd($kegiatan);
-        $program = DB::table('program')->get();
-        // $kegiatan = DB::table('kegiatan')->where('kode', $id)->get(); 
-        // dd($kegiatan);  
-        return view ('admin.kegiatan.edit', compact('kegiatan','program'));
+        // $program = DB::table('program')->get();
+        $kegiatan = Kegiatan::join('program', 'kegiatan.kode','=','program.kode')
+        ->where('kegiatan.id', $id)
+        ->first();
+        return view ('admin.kegiatan.edit', compact('kegiatan'));
 
     }
 
@@ -87,20 +79,18 @@ class KegiatanController extends Controller
      */
     public function update(Request $request)
     {
-        //fungsi edit program
-        // dd($request);
-        // dd($request);
         DB::table('kegiatan')->where('id',$request->id)->update([
             'kode_k' => $request->kode_k,
             'kode' => $request->kode,
             'urusan' => $request->urusan,
-            'indikator' => $request->indikator,
+            'indikator' => $request->indikator,     
             'target_k' => $request->target_k,
 
         ]);
+        
 
-        return redirect('admin/program/detail/' . $request->kode);
-
+        // return redirect('admin/program/detail/' . $request->kode);
+        dd($request);
     }
 
     /**

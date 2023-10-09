@@ -111,17 +111,13 @@
                                         <td>{{$k->target_k}}</td>
                                         <td>{{$k->target_r}}</td>
                                         <td>
-                                            <form action="#" method="POST">
+                                                  
+                                            <button onclick="show_ubah({{$k->id}})" data-bs-toggle="modal" data-bs-target="#ubahModal" class="btn btn-primary btn-sm " title="Update"><i class="bi bi-box-arrow-in-up"></i></button>
 
-                                                <a href="#" class="btn btn-warning btn-sm " title="Detail"><i
-                                                        class="bi bi-arrow-repeat"></i></a>
-                                                <a href="{{url('admin/kegiatan/edit/'). '/'. $k->id}}" class="btn btn-primary btn-sm " title="Update"><i
-                                                        class="bi bi-box-arrow-in-up"></i></a>
-
-                                                <a href="{{url('admin/kegiatan/delete/'.$k->id)}}" class="btn btn-danger btn-sm " title="Hapus"><i
+                                        <a href="" class="btn btn-danger btn-sm " title="Hapus"><i
                                                         class="bi bi-trash"></i></a>
 
-                                            </form>
+                                           
                                         </td>
                                     </tr>
                                     @php
@@ -197,6 +193,9 @@
         <div class="modal-dialog modal-lg" id="tmp-edit">
           
         </div>
+      </div>
+      <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" id="kgt-edit">
       </div>
     </div>
     
@@ -287,9 +286,51 @@
             }, 
             success : function(data) {
                 $("#table-post").html(data);
-                // console.log(data);
+                console.log(data);
             }
         })
+    }
+    // $('body').on('click', '#btn-ubah-kgt', function (){
+    //     let id = $(this).data('id');
+    function show_ubah(id){
+        $.ajax({
+            type : "GET",
+            url  : '{{ url('admin/program/show_ubah') }}',
+            dataType : "html",
+            data: {
+                id : id
+            },
+            success : function(data){
+                $("#kgt-edit").html(data);
+                console.log(data);
+            }
+        })
+    }
+
+    function ubah(){
+        var kode = $('#id_p').val();
+        var id = $('#id').val();
+        var urusan = $('#k_urusan').val();
+        var indikator = $('#k_indikator').val();
+        var target_k = $('#k_target_k').val();
+        $.ajax({
+            type    : "POST",
+            url     : '{{url('admin/program/ubahaction') }}',
+            dataType : "html",
+            data    : {
+                "_token": "{{ csrf_token() }}",
+                "indikator" : indikator,
+                "urusan" : urusan,
+                "target_k" :target_k,
+                "id" : id 
+            },
+            success : function(){
+                $('#ubahModal').modal('hide');
+                tampil_data(kode);
+                alert('Data Berhasil Disimpan');
+            }
+        })
+
     }
 
     function show_edit(id)
