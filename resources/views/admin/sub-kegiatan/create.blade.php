@@ -1,4 +1,4 @@
-@extends('layout.main')
+@extends('admin.layout.main')
 
 @section('judul')
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
@@ -7,7 +7,7 @@
 @endsection
 
 @section('isi')
-<form method="POST" action="{{url('admin/sub_kegiatan/store')}}" enctype="multipart/form-data">
+<form method="POST" action="{{url('admin/sub_kegiatan/storedata')}}" enctype="multipart/form-data">
   {{csrf_field()}}
 
   <div class="form-group row">

@@ -17,10 +17,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    use HasFactory;
+    protected $table = 'users';
+    protected $primaryKey = 'id';
     protected $fillable = [
+        'bidang_id',
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -42,4 +47,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function bidang(){
+        return $this->belongsTo(bidang::class);
+    }
+    public function users(){
+        return $this->hasmany(users::class);
+    }
 }

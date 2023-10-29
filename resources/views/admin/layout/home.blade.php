@@ -1,4 +1,4 @@
-@extends('layout.main')
+@extends('admin.layout.main')
 
 @section('judul')
 Halaman Home
@@ -6,6 +6,19 @@ Halaman Home
 
 
 @section('isi')
+
+@switch(Auth::user()->role)
+    @case('admin')
+        <x-dashboardAdmin/>
+        @break
+    @case('bidang')
+    <x-dashboardBidang/>
+        @break
+    @case('bendahara')
+      <x-dashboardBendahara/>
+    @break
+@endswitch
+{{-- 
 <section class="section dashboard">
       <div class="row">
 
@@ -193,5 +206,5 @@ Halaman Home
                   <!-- End Line Chart -->
 
                 </div>
-</section>
+</section> --}}
 @endsection

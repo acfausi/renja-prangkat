@@ -1,11 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\BidangController;
-use App\Http\Controllers\ProgramController;
-use App\Http\Controllers\KegiatanController;
-use App\Http\Controllers\Sub_kegiatanController;
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\BidangController;
+use App\Http\Controllers\admin\ProgramController;
+use App\Http\Controllers\admin\KegiatanController;
+use App\Http\Controllers\admin\Sub_kegiatanController;
+use App\Http\Controllers\admin\SesiController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Auth;
+// controller bidang
+use App\Http\Controllers\bidang\DshboardController;
+use App\Http\Controllers\bidang\TargetController;
+use App\Http\Controllers\bidang\TriwulanController;
 
 
 /*
@@ -19,8 +27,13 @@ use App\Http\Controllers\Sub_kegiatanController;
 |
 */
 
+// login
+// Route::get('/', [SesiController::class, 'index']);
+// Route::post('/', [SesiController::class, 'login']);
+
 // route layout
-Route::get('/',[DashboardController::class,'index']);
+
+Route::get('/dashboard',[DashboardController::class,'index']);
 
 Route::prefix('admin')->group(function(){
 // route bidang
@@ -43,29 +56,59 @@ Route::post('/program/update', [programController::class, 'update']);
 Route::get('/program/delete/{id}', [programController::class, 'destroy']);
 Route::get('/program/getkegiatan',[ProgramController::class,'get_kegiatan']);
 Route::get('/program/showmodal',[ProgramController::class,'show_modal']);
+Route::post('/sub_kegiatan/storedata',[Sub_kegiatanController::class,'storedata']);
 Route::get('/program/getsubkegiatan',[ProgramController::class,'getsubkegiatan']);
 // kegiatan
 Route::get('/program/show_ubah', [programController::class, 'show_ubah']);
 Route::post('/program/ubahaction', [programController::class, 'ubahaction']);
+Route::post('/program/delete/{id}', [programController::class, 'delete'])->name('program.delete');
+Route::get('/kegiatan',[KegiatanController::class,'index']);
+Route::get('/kegiatan/create/{id}',[KegiatanController::class,'create']);
+Route::post('/kegiatan/store',[KegiatanController::class,'store']);
+Route::get('/kegiatan/delete/{id}', [KegiatanController::class, 'destroy']); 
 // subkegiatan
 Route::get('/program/show_edit', [programController::class, 'show_edit']);
 Route::post('/program/editaction', [programController::class, 'editaction']);
 Route::post('/program/hapus/{id}', [programController::class, 'hapus'])->name('program.hapus');
-
-
-//Route Kegiatan
-Route::get('/kegiatan',[KegiatanController::class,'index']);
-Route::get('/kegiatan/create/{id}',[KegiatanController::class,'create']);
-Route::post('/kegiatan/store',[KegiatanController::class,'store']);
-
-Route::get('/kegiatan/delete/{id}', [KegiatanController::class, 'destroy']);
-// // Rout Sub Kegiatan
 Route::get('/sub_kegiatan',[Sub_kegiatanController::class,'index']);
-// Route::get('/sub_kegiatan/create',[Sub_kegiatanController::class,'create']);
-Route::post('/sub_kegiatan/store',[Sub_kegiatanController::class,'store']);
-// Route::get('/sub_kegiatan/edit/{id}', [Sub_kegiatanController::class, 'edit']);
-// Route::post('/sub_kegiatan/update', [Sub_kegiatanController::class, 'update']);
-// Route::get('/sub_kegiatan/delete/{id}', [Sub_kegiatanController::class, 'destroy']);
+//Route User
+// Route::get('/user/tampil',[Role_userController::class,'tampil']);
+Route::get('/user',[UserController::class,'index']);
+Route::get('/user/create',[UserController::class,'create']);
+Route::post('/user/store',[UserController::class,'store']);
+
 
 
 });
+
+Route::prefix('bidang')->group(function(){
+
+Route::get('/dashboard',[DshboardController::class,'index']);
+Route::get('/getdata',[TargetController::class,'getdata']);
+Route::get('/target',[TargetController::class,'index']);
+Route::get('/target/detail/{id}',[TargetController::class,'detail']);
+Route::post('/target/modif', [TargetController::class, 'modif']);
+Route::get('/target/input',[TargetController::class,'input']);
+// route triwulan
+Route::get('/triwulan',[TriwulanController::class,'index']);
+Route::get('/tridata',[TriwulanController::class,'tridata']);
+Route::get('/triwulan/detail/{id}',[TriwulanController::class,'detail']);
+Route::post('/triwulan/store', [TriwulanController::class, 'store']);
+Route::get('/triwulan/input',[TriwulanController::class,'input']);
+
+
+
+});
+
+
+
+
+Auth::routes([
+    'login'=>false,
+    'register'=>false,
+    'confirm'=>false,
+    'home'=>false   
+]);
+Route::get('/', [LoginController::class,'showLoginForm']);
+Route::POST('login', [LoginController::class,'login'])->name('login');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

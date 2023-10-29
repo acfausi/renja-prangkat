@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Program;
@@ -52,11 +54,11 @@ class ProgramController extends Controller
         ];
         // function validasi
         $this->validate($request,[
-            'kode'=> 'required|numeric',
+            'kode'=> 'required',
             'urusan'=> 'required',
             'bidang_id'=> 'required',
             'indikator'=> 'required',
-            'target_k'=> 'required|numeric'
+            // 'target_k'=> 'required|numeric'
         ],$message);
         //function request create
         DB::table('program')->insert([
@@ -125,8 +127,8 @@ class ProgramController extends Controller
         // function validasi
         $this->validate($request,[
             'kode'=> 'required|numeric',
-            'urusan'=> 'required',
             'bidang_id'=> 'required',
+            'urusan'=> 'required',
             'indikator'=> 'required',
             'target_k'=> 'required|numeric'
         ],$message);
@@ -153,6 +155,67 @@ class ProgramController extends Controller
         return back();
     }
 
+        // table kegiatan
+        public function show_ubah(){
+            $id = $_GET['id'];
+            $kegiatan = DB::table('kegiatan')->where('id', $id)->first();
+            echo'
+            <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">EDIT DATA</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form method="POST">
+            '.csrf_field().'
+                <div class="form-group row">
+                    <label for="text3" class="col-4 col-form-label">Urusan</label> 
+                    <div class="col-8">
+                    <textarea name="urusan" id="k_urusan"  cols="40" rows="5" class="form-control">'.$kegiatan->urusan.'</textarea>
+                    </div>
+                </div> 
+                <div class="form-group row">
+                    <label for="text3" class="col-4 col-form-label">Indikator</label> 
+                    <div class="col-8">
+                    <textarea name="indikator" id="k_indikator" cols="40" rows="5" class="form-control">'.$kegiatan->indikator.'</textarea>
+                    </div>
+                </div> 
+                <input type="text" id="id_p" name="kode" hidden value="'.$kegiatan->kode.'">
+                <input type="text" id="id" name="id" hidden value="'.$kegiatan->id.'">
+                <button type="button" class="btn btn-primary" onclick="ubah()">Save</button>
+                </form>
+                    </div>
+            </div>
+            ';
+        }
+    
+        public function ubahaction(Request $request){
+            DB::table('kegiatan')->where('id',$request->id)->update([
+                'urusan' => $request->urusan,
+                'indikator' => $request->indikator,
+                'target_k' => $request->target_k,
+            ]);
+        }
+    
+        public function delete ($id){
+            DB::table('kegiatan')->where('id', $id)->delete();
+            if ($id == 1) {
+                $success = true;
+                $message = "User deleted successfully";
+            } else {
+                $success = true;
+                $message = "User not found";
+            }
+    
+            //  Return response
+            return response()->json([
+                'success' => $success,
+                'message' => $message,
+            ]);
+        }
+
+
+        // table subkegiatan
     public function get_kegiatan() {
         $id = $_GET['id'];
 
@@ -194,7 +257,7 @@ class ProgramController extends Controller
                 <td>'. $kegiatan->target_k .'</td>
             </tr>
         </table>
-        <form method="POST" action="'. url('admin/sub_kegiatan/store')  .'">
+        <form method="POST" action="'. url('admin/sub_kegiatan/storedata')  .'">
         '. csrf_field() .'
             <div class="form-group row">
                 <label for="text3" class="col-4 col-form-label">Urusan</label> 
@@ -208,12 +271,6 @@ class ProgramController extends Controller
                 <textarea name="indikator" id="indikator" cols="40" rows="5" class="form-control"></textarea>
                 </div>
             </div> 
-            <div class="form-group row">
-                <label for="text3" class="col-4 col-form-label">Kinerja</label> 
-                <div class="col-8">
-                <input name="target_k" id="target_k" type="number" class="form-control">
-                </div>
-            </div>
             <input type="text" id="kode_k" name="kode_k" hidden value="'. $kegiatan->kode_k .'">
             <button type="button" class="btn btn-primary" onclick="tambahData()">Save</button>
             </form>
@@ -247,53 +304,6 @@ class ProgramController extends Controller
             ';
         }
     }
-    public function show_ubah(){
-        $id = $_GET['id'];
-        $kegiatan = DB::table('kegiatan')->where('id', $id)->first();
-        echo'
-        <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">EDIT DATA</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-        <form method="POST">
-        '.csrf_field().'
-            <div class="form-group row">
-                <label for="text3" class="col-4 col-form-label">Urusan</label> 
-                <div class="col-8">
-                <textarea name="urusan" id="k_urusan"  cols="40" rows="5" class="form-control">'.$kegiatan->urusan.'</textarea>
-                </div>
-            </div> 
-            <div class="form-group row">
-                <label for="text3" class="col-4 col-form-label">Indikator</label> 
-                <div class="col-8">
-                <textarea name="indikator" id="k_indikator" cols="40" rows="5" class="form-control">'.$kegiatan->indikator.'</textarea>
-                </div>
-            </div> 
-            <div class="form-group row">
-                <label for="text3" class="col-4 col-form-label">Kinerja</label> 
-                <div class="col-8">
-                <input name="target_k" id="k_target_k" value="'.$kegiatan->target_k.'" type="number" class="form-control">
-                </div>
-            </div>
-            <input type="text" id="id_p" name="kode" hidden value="'.$kegiatan->kode.'">
-            <input type="text" id="id" name="id" hidden value="'.$kegiatan->id.'">
-            <button type="button" class="btn btn-primary" onclick="ubah()">Save</button>
-            </form>
-                </div>
-        </div>
-        ';
-    }
-
-    public function ubahaction(Request $request){
-        DB::table('kegiatan')->where('id',$request->id)->update([
-            'urusan' => $request->urusan,
-            'indikator' => $request->indikator,
-            'target_k' => $request->target_k,
-        ]);
-
-    }
 
     public function show_edit(){
         $id = $_GET['id'];
@@ -319,12 +329,6 @@ class ProgramController extends Controller
                 <textarea name="indikator" id="sub_indikator" cols="40" rows="5" class="form-control">'.$sub_kegiatan->indikator.'</textarea>
                 </div>
             </div> 
-            <div class="form-group row">
-                <label for="text3" class="col-4 col-form-label">Kinerja</label> 
-                <div class="col-8">
-                <input name="target_k" id="sub_target_k" value="'.$sub_kegiatan->target_k.'" type="number" class="form-control">
-                </div>
-            </div>
             <input type="text" id="id_k" name="id_k" hidden value="'. $sub_kegiatan->kode_k .'">
             <input type="text" id="id" name="id" hidden value="'. $sub_kegiatan->id .'">
             <button type="button" class="btn btn-primary" onclick="edit()">Save</button>

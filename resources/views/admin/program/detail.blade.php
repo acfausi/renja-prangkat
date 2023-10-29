@@ -1,4 +1,4 @@
-@extends('layout.main')
+@extends('admin.layout.main')
 @section('judul')
 
 @endsection
@@ -114,8 +114,8 @@
                                                   
                                             <button onclick="show_ubah({{$k->id}})" data-bs-toggle="modal" data-bs-target="#ubahModal" class="btn btn-primary btn-sm " title="Update"><i class="bi bi-box-arrow-in-up"></i></button>
 
-                                        <a href="" class="btn btn-danger btn-sm " title="Hapus"><i
-                                                        class="bi bi-trash"></i></a>
+                                            <button onclick="deleteConfir({{$k->id}})" class="btn btn-danger btn-sm " title="kgtHapus"><i
+                                                class="bi bi-trash"></i></button>
 
                                            
                                         </td>
@@ -260,7 +260,7 @@
         var target =  $("#target_k").val();
         $.ajax({
             method: 'POST',
-            url: "{{ url('admin/sub_kegiatan/store') }}",
+            url: '{{ url('admin/sub_kegiatan/storedata') }}',
             data: {
                 "_token": "{{ csrf_token() }}",
                 "indikator" : indikator,
@@ -268,9 +268,10 @@
                 "target_k" :target,
                 "kode_k" : id
             },
-            success: function() {
+            
+            success : function() {
                 tampil_data(id);
-                alert('berhasil disimpan');
+                toastr.success('berhasil disimpan');
             }
         });
     }
@@ -292,6 +293,10 @@
     }
     // $('body').on('click', '#btn-ubah-kgt', function (){
     //     let id = $(this).data('id');
+
+        
+
+    // funtion edit kegiatan
     function show_ubah(id){
         $.ajax({
             type : "GET",
@@ -333,6 +338,52 @@
 
     }
 
+function deleteConfir(id){
+    console.log("hapus");
+    swal.fire({
+        title: "Hapus?",
+        icon: 'question',
+        text: "Please ensure and then confirm!",
+        showCancelButton: !0,   
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: !0
+    })
+    .then(function (e) {
+
+        if (e.value === true) {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            let url = "{{route('program.delete',':id')}}";
+            url = url.replace(':id',id);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {_token: CSRF_TOKEN},
+                dataType: 'JSON',
+                success: function (results) {
+                    if (results.success === true) {
+                        swal.fire("Done!", results.message, "success");
+                        var kode = $('#id_p').val();
+                        tampil_data(kode);
+                        
+                    } else {
+                        swal.fire("Error!", results.message, "error");
+                    }
+                },error : (e)=>{
+        
+                }
+            });
+
+        } else {
+            e.dismiss;
+        }
+
+    }, function (dismiss) {
+        return false;
+    })
+}
+
+    // function edit sub_kegiatan
     function show_edit(id)
     {
         $.ajax({
@@ -377,7 +428,7 @@
     function hapusConfir(id){
         console.log("hapus");
         swal.fire({
-            title: "Hapsus?",
+            title: "Hapus?",
             icon: 'question',
             text: "Please ensure and then confirm!",
             showCancelButton: !0,   
@@ -417,8 +468,9 @@
         }, function (dismiss) {
             return false;
         })
-    }
 
+        
+    }
 
    
 </script>

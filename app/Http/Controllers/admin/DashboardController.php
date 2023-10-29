@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
@@ -12,7 +14,7 @@ class DashboardController extends Controller
     public function index()
     {
         //menampilkan ke halaman utama
-        return view('layout.home');
+        return view('admin.layout.home');
     }
 
     /**

@@ -1,4 +1,4 @@
-@extends('layout.main')
+@extends('admin.layout.main')
 
 @section('judul')
 <h1>Data Bidang</h1>

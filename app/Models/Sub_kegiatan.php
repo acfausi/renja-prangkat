@@ -11,10 +11,18 @@ class Sub_kegiatan extends Model
     protected $table = 'sub_kegiatan';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'kegiatan_id','urusan','indikator','target_k','target_r'
+        'nama_triwulan','nama_target','kode_k','urusan','indikator','target_k','target_r'
     ];
 
+    
     public function kegiatan(){
         return $this->blongsTo(kegiatan::class);
     }
+    public function realisasi(){
+        return $this->blongsTo(realisasi::class);
+    }
+    public function target(){
+        return $this->blongsTo(target::class);
+    }
+    
 }

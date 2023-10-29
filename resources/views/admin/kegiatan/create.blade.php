@@ -1,4 +1,4 @@
-@extends('layout.main')
+@extends('admin.layout.main')
 @section('judul')
 
 @endsection
@@ -41,15 +41,6 @@
                                 <label for="floatingTextarea">Indikator</label>   
                               </div>
                               @error('indikator')
-                                        {{ $message }}
-                                @enderror
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-floating">
-                                <input type="text" name="target_k"  class="form-control @error ('target_k') is-invalid @enderror" id="floatingName" placeholder="Your Kinerja">
-                                <label for="floatingName">Kinerja Program</label>
-                              </div>
-                              @error('target_k')
                                         {{ $message }}
                                 @enderror
                         </div>

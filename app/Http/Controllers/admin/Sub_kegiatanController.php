@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Kegiatan;
@@ -37,14 +39,14 @@ class Sub_kegiatanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storedata(Request $request)
     {
           //function request create
           DB::table('sub_kegiatan')->insert([
             'kode_k' => $request->kode_k,
             'urusan' => $request->urusan,
             'indikator' => $request->indikator,
-            'target_k' => $request->target_k,
+            // 'target_k' => $request->target_k
         ]);
         // return redirect('admin/sub_kegiatan');
     }
@@ -78,7 +80,7 @@ class Sub_kegiatanController extends Controller
             'kegiatan_id' => $request->kegiatan_id,
             'urusan' => $request->urusan,
             'indikator' => $request->indikator,
-            'target_k' => $request->target_k,
+            // 'target_k' => $request->target_k,
 
         ]);
         return redirect('admin/sub_kegiatan');

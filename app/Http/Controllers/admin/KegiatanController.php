@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Kegiatan;
@@ -48,7 +50,7 @@ class KegiatanController extends Controller
             'kode' => $request->kode,
             'urusan' => $request->urusan,
             'indikator' => $request->indikator,
-            'target_k' => $request->target_k,
+            // 'target_k' => $request->target_k,
         ]);
         return redirect('admin/program/detail/' . $request->kode);
     }
@@ -84,7 +86,7 @@ class KegiatanController extends Controller
             'kode' => $request->kode,
             'urusan' => $request->urusan,
             'indikator' => $request->indikator,     
-            'target_k' => $request->target_k,
+            // 'target_k' => $request->target_k,
 
         ]);
         

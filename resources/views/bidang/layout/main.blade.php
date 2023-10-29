@@ -19,6 +19,7 @@
     <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -29,14 +30,19 @@
     <!-- Vendor CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="{{asset('admin/assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{asset('admin/assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
-    <link href="{{asset('admin/assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
-    <link href="{{asset('admin/assets/vendor/quill/quill.snow.css" rel="stylesheet')}}">
-    <link href="{{asset('admin/assets/vendor/quill/quill.bubble.css" rel="stylesheet')}}">
-    <link href="{{asset('admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet')}}">
-    <link href="{{asset('admin/assets/vendor/simple-datatables/style.css" rel="stylesheet')}}">
-    <link href="{{asset('admin/assets/vendor/simple-datatables/style.css" rel="stylesheet')}}">
+<link href="{{asset('admin/assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/>
+<link href="{{asset('admin/assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet"/>
+<link href="{{asset('admin/assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet"/>
+<link href="{{asset('admin/assets/vendor/quill/quill.snow.css')}}"
+  rel="stylesheet"/>
+<link href="{{asset('admin/assets/vendor/quill/quill.bubble.css')}}"
+  rel="stylesheet" />
+<link href="{{asset('admin/assets/vendor/remixicon/remixicon.css')}}"
+  rel="stylesheet" />
+<link href="{{asset('admin/assets/vendor/simple-datatables/style.css')}}"
+  rel="stylesheet" />
+<link href="{{asset('admin/assets/vendor/simple-datatables/style.css')}}"
+  rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -59,21 +65,14 @@
 
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
-
         <div class="d-flex align-items-center justify-content-between">
             <a href="{{url('/')}}" class="logo d-flex align-items-center">
                 <img src="{{asset('admin/assets/img/logo-d.jpg')}}" alt="">
-                <span class="d-none d-lg-block">E-KiPer</span>
+              <span class="d-none d-lg-block">E-Kiper</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
-        </div><!-- End Logo -->
+        </div>
 
-        <!-- <div class="search-bar">
-            <form class="search-form d-flex align-items-center" method="POST" action="#">
-                <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-            </form>
-        </div> -->
 
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
@@ -93,8 +92,8 @@
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>Kevin Anderson</h6>
-                            <span>Web Designer</span>
+                            <h6>Ach. Fausi</h6>
+                            <span>Fullstack Developer</span>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
@@ -111,12 +110,17 @@
                         </li>
 
                         <li>
-                            <a href="#" method="POST" class="dropdown-item d-flex align-items-center" >
-                                @csrf
-                                @method('DELETE')
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
-                            </a>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                          document.getElementById('logout-form').submit();">
+                             <i class="bi bi-box-arrow-right"></i>
+                             <span>Sign Out</span>
+                         </a>
+
+                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                             @csrf
+                         </form>
+                        
                         </li>
 
                     </ul><!-- End Profile Dropdown Items -->
@@ -127,7 +131,7 @@
 
     </header><!-- End Header -->
 
-    @include('layout.menu')
+    @include('bidang.layout.menu')
 
     <main id="main" class="main">
 
@@ -150,7 +154,7 @@
     </main>
     <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>Trager's</span></strong>. Kampus Merdeka Studi Independen
+      &copy; Copyright <strong><span>E-Kiper</span></strong>. Kondope Dev
     </div>
     <div class="credits">
       Designed by <a href="www.hendevane.co.id"> </a>
@@ -182,6 +186,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>$(document).ready(function() {
         $('#example').datatablesSimple( {
             dom: 'Bfrtip',
@@ -192,6 +197,15 @@
     } );
     </script>
 
+    @if (Session::has('message'))
+        
+    <script>
+        toastr.option ={
+            "progressBar" : true,
+        }
+        toastr.success("{{Session::get('message')}}");
+    </script>
+    @endif
 </body>
 
 </html>
