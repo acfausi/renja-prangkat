@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('realisasi', function (Blueprint $table) {
             $table->id('id_rea');
-            $table->string('nama_triwulan',100);
+            $table->unsignedBigInteger('sub_id');
+            $table->unsignedBigInteger('bidang_id');
             $table->integer('rea_k')->nullable();
             $table->integer('rea_rp')->nullable();
             $table->timestamps();
+
         });
     }
 

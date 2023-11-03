@@ -13,7 +13,7 @@ Data Target
               <!-- Small tables -->
               <table class="table table-sm">
                 <tbody id="table-get">
-                  <a href=""></a>
+                  <a href=""></a> 
                 </tbody>
               </table>
               <!-- End small tables -->

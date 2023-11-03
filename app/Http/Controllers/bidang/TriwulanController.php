@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Bidang;
+use App\Models\Realisasi;
+use App\Models\Target;
 use DB;
 
 class TriwulanController extends Controller
@@ -50,22 +52,28 @@ class TriwulanController extends Controller
         }
     }
     public function detail($id){
+
+        $targets = Target::where('sub_id',$id)->withCount('realisasi')->get();
+
         $sub_kegiatan = DB::table('sub_kegiatan')->where('id',$id)->get();
         $id = $id;
         
-        return view('bidang.triwulan.detail', compact('sub_kegiatan','id'));
+        return view('bidang.triwulan.detail', compact('sub_kegiatan','id','targets'));
     }
     public function store(Request $request){
-        DB::table('sub_kegiatan')->where('id',$request->id)->store([
-            'urusan'=>$request->urusan,
-            'indikator'=>$request->indikator,
-            'target_k'=>$request->target_k, 
-            'target_r'=>$request->terget_r,
+        $target = Target::where('id_target',$request->target_id)->first();
+        Realisasi::insert([
+            'sub_id'=>$target->sub_id,
+            'bidang_id'=>$target->bidang_id,
+            'target_id'=>$request->target_id,
+            'rea_k'=>$request->rea_k,
         ]);
-        return redirect('bidang/target/detail/'. $request->id); 
+
+        return redirect('/bidang/triwulan/detail/'.$target->sub_id)->with('success','Data Triwulan Berhasil ditambahkan');
     }
 
-    public function input(){
-        return view ('bidang.triwulan.input');
+    public function input($id){
+        return view ('bidang.triwulan.input',compact('id'));
     }
+    
 }

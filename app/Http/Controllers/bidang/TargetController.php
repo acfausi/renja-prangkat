@@ -5,7 +5,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Bidang;
+use App\Models\Sub_kegiatan;
+use App\Models\Target;
 use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class TargetController extends Controller
 {
@@ -42,7 +45,6 @@ class TargetController extends Controller
                 </tr>
                     ';
                 $subkeagiatan = DB::table('sub_kegiatan')->where('kode_k', $val->kode_k)->get();
-
                 foreach ($subkeagiatan as $row) {
                     echo'
                     <tr>
@@ -59,10 +61,14 @@ class TargetController extends Controller
     }
     public function detail($id){
 
+        $countTarget = (Target::where('sub_id',$id)->count());
+        $countTarget++;
+
+        $bidang = DB::table('bidang')->where('id',$id)->get();
         $sub_kegiatan = DB::table('sub_kegiatan')->where('id',$id)->get();
         $id = $id;
         
-        return view('bidang.target.detail', compact('sub_kegiatan','id'));
+        return view('bidang.target.detail', compact('sub_kegiatan','id','countTarget'));
     }
 
     public function modif(Request $request){
@@ -76,9 +82,35 @@ class TargetController extends Controller
         return redirect('bidang/target/detail/'. $request->id); 
     }
 
-    public function input(){
+    public function input($id){
+        $idbidang =  auth()->user()->bidang_id;
+        // $sub = DB::table('sub_kegiatan')->where('id',$idbidang)->get();
+        $sub_kegiatan = DB::table('sub_kegiatan')->where('id',$id)->first();
+        $id = $id;
 
-        return view ('bidang.target.input');
+        return view ('bidang.target.input', compact('sub_kegiatan','id'));
+    }
+
+    public function store($id,Request $request){
+
+        $countTarget = Target::where('sub_id',$id)->count();
+
+        if($countTarget++ > 4){
+
+            return redirect('bidang/target/detail/'.$request->id)->with('fail','Target Sudah Lebih Dari 4');
+        }else {
+            DB::table('terget')->insert([
+                'sub_id' => $id,
+                'bidang_id'=> auth()->user()->bidang_id,
+                // 'bidang_id' => $idbidang,
+                'target_k' => $request->target_k,
+                'name' => "Target ".  $countTarget
+                
+            ]);
+            return redirect('bidang/target/detail/'. $request->id)->with('success','Data Berhasil Ditambahkan');
+        }
+
+     
     }
 
 }

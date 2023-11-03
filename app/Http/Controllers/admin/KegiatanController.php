@@ -92,7 +92,7 @@ class KegiatanController extends Controller
         
 
         // return redirect('admin/program/detail/' . $request->kode);
-        dd($request);
+        // dd($request);
     }
 
     /**

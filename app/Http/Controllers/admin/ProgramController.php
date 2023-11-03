@@ -19,7 +19,7 @@ class ProgramController extends Controller
     public function index()
     {
         //Menampilkan data view
-
+        
         $program = Program::join('bidang', 'program.bidang_id','=','bidang.id')
         ->select('program.*','bidang.nama_bidang as bidang')
         ->get();
@@ -271,6 +271,20 @@ class ProgramController extends Controller
                 <textarea name="indikator" id="indikator" cols="40" rows="5" class="form-control"></textarea>
                 </div>
             </div> 
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Target Kinerja</label> 
+                <div class="col-8">
+                <input type="number" id="target_k" name="target_k" class="form-control"
+                placeholder="Input Kinerja* ">
+                </div>
+            </div> 
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Target Keuangan</label> 
+                <div class="col-8">
+                <input type="number" id="target_r" name="target_r" class="form-control"
+                placeholder="Input Anggaran* ">
+                </div>
+            </div> 
             <input type="text" id="kode_k" name="kode_k" hidden value="'. $kegiatan->kode_k .'">
             <button type="button" class="btn btn-primary" onclick="tambahData()">Save</button>
             </form>
@@ -293,6 +307,7 @@ class ProgramController extends Controller
                     <td>'. $get->indikator .'</td>
                     <td>'. $get->urusan .'</td>
                     <td>'. $get->target_k .'</td>
+                    <td>'. $get->target_r .'</td>
                     <td>    
                     <button onclick="show_edit('.$get->id.')" data-bs-toggle="modal" data-bs-target="#editModal" class="btn btn-primary btn-sm " title="Update"><i
                             class="bi bi-box-arrow-in-up"></i></button>
@@ -329,6 +344,18 @@ class ProgramController extends Controller
                 <textarea name="indikator" id="sub_indikator" cols="40" rows="5" class="form-control">'.$sub_kegiatan->indikator.'</textarea>
                 </div>
             </div> 
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Target Kinerja</label> 
+                <div class="col-8">
+                <input type="number" id="target_k" name="target_k" value="'. $sub_kegiatan->target_k .'" class="form-control">
+                </div>
+            </div> 
+            <div class="form-group row">
+                <label for="text3" class="col-4 col-form-label">Target Keuangan</label> 
+                <div class="col-8">
+                <input type="number" id="target_r" name="target_r" value="'. $sub_kegiatan->target_r .'" class="form-control">
+                </div>
+            </div>
             <input type="text" id="id_k" name="id_k" hidden value="'. $sub_kegiatan->kode_k .'">
             <input type="text" id="id" name="id" hidden value="'. $sub_kegiatan->id .'">
             <button type="button" class="btn btn-primary" onclick="edit()">Save</button>
@@ -342,6 +369,7 @@ class ProgramController extends Controller
             'urusan' => $request->urusan,
             'indikator' => $request->indikator,
             'target_k' => $request->target_k,
+            'target_r' => $request->target_r,
 
         ]);
 

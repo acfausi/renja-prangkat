@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('terget', function (Blueprint $table) {
             $table->id('id_target');
-            $table->string('nama_target',100);
+            $table->unsignedBigInteger('sub_id');
+            $table->unsignedBigInteger('bidang_id');
+            $table->string('name', 100)->nullable();
             $table->integer('target_k')->nullable();
             $table->integer('target_rp')->nullable();
             $table->timestamps();
+
+
         });
     }
 

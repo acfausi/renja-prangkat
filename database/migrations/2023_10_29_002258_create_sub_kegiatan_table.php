@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('sub_kegiatan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_triwulan',100)->nullable();
-            $table->string('nama_target',100)->nullable();
             $table->string('kode_k',100);
-            $table->string('urusan' ,100);
-            $table->string('indikator' ,100);
+            $table->string('urusan' ,999);
+            $table->string('indikator' ,999);
             $table->integer('target_k')->nullable();
             $table->integer('target_r')->nullable();
             $table->timestamps();

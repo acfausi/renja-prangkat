@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title></title>
+    <title>Bendahara</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -15,10 +15,6 @@
     <link href="{{ asset('admin/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
     <!-- Template js -->
-    {{-- <link href="https://cdn.datatables.net/v/bs4/dt-1.13.6/r-2.5.0/rg-1.4.1/sb-1.6.0/datatables.min.css"
-        rel="stylesheet">
-
-    <script src="https://cdn.datatables.net/v/bs4/dt-1.13.6/r-2.5.0/rg-1.4.1/sb-1.6.0/datatables.min.js"></script> --}}
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -36,13 +32,14 @@
     <!-- Vendor CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="{{ asset('admin/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet"> />
+    <link href="{{ asset('admin/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/vendor/quill/quill.snow.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
         integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
@@ -70,7 +67,7 @@
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
-            <a href="{{ url('/') }}" class="logo d-flex align-items-center">
+            <a href="{{ url('bendahara/dashboard') }}" class="logo d-flex align-items-center">
                 <img src="{{ asset('admin/assets/img/logo-d.jpg') }}" alt="">
                 <span class="d-none d-lg-block">E-Kiper</span>
             </a>
@@ -137,7 +134,7 @@
 
     </header><!-- End Header -->
 
-    @include('admin.layout.menu')
+    @include('bendahara.layout.menu')
 
     <main id="main" class="main">
 
@@ -160,7 +157,7 @@
     </main>
     <footer id="footer" class="footer">
         <div class="copyright">
-            &copy; Copyright <strong><span>E-Kiper</span></strong>. Kondope Dev
+            &copy; Copyright <strong><span>E-Kiper</span></strong>
         </div>
         <div class="credits">
             Designed by <a href="www.hendevane.co.id"> </a>
@@ -193,16 +190,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).ready(function() {
-            $('#example').datatablesSimple({
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
-            });
-        });
-    </script>
 
     @if (Session::has('message'))
         <script>

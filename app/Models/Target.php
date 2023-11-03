@@ -11,9 +11,15 @@ class Target extends Model
     use HasFactory;
     protected $table = 'terget';
     protected $primaryKey = 'id_target';
-    protected $fillable = ['nama_target','target_k','target_rp'];
+    protected $fillable = ['target_k','target_rp','name'];
 
+    public function bidang(){
+        return $this->blongsTo(bidang::class);
+    }
     public function sub_kegiatan(){
-        return $this->hasMany(sub_kegiatan::class);
-    } 
+        return $this->blongsTo(Sub_kegiatan::class);
+    }
+    public function realisasi(){
+        return $this->hasOne(realisasi::class,'target_id');
+    }
 }

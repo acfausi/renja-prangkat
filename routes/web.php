@@ -15,6 +15,8 @@ use App\Http\Controllers\bidang\DshboardController;
 use App\Http\Controllers\bidang\TargetController;
 use App\Http\Controllers\bidang\TriwulanController;
 
+use App\Http\Controllers\bendahara\B_dashboardController;
+use App\Http\Controllers\bendahara\B_targetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,16 +90,23 @@ Route::get('/getdata',[TargetController::class,'getdata']);
 Route::get('/target',[TargetController::class,'index']);
 Route::get('/target/detail/{id}',[TargetController::class,'detail']);
 Route::post('/target/modif', [TargetController::class, 'modif']);
-Route::get('/target/input',[TargetController::class,'input']);
+Route::get('/target/input/{id}',[TargetController::class,'input'])->name('target.input.id');
+Route::post('/target/store/{id}',[TargetController::class,'store']);
 // route triwulan
 Route::get('/triwulan',[TriwulanController::class,'index']);
 Route::get('/tridata',[TriwulanController::class,'tridata']);
 Route::get('/triwulan/detail/{id}',[TriwulanController::class,'detail']);
-Route::post('/triwulan/store', [TriwulanController::class, 'store']);
-Route::get('/triwulan/input',[TriwulanController::class,'input']);
+Route::post('/triwulan/store', [TriwulanController::class, 'store'])->name('triwulan.store');
+Route::get('/triwulan/input/{id}',[TriwulanController::class,'input'])->name('triwulan.input');
 
+});
 
-
+//Route Bendahara
+Route::prefix('bendahara')->group(function(){
+    Route::get('/dashboard',[B_dashboardController::class,'index']);
+    Route::get('/target',[B_targetController::class,'index']);
+    Route::get('/target/detail',[B_targetController::class,'detail']);
+    Route::get('/target/input',[B_targetController::class,'input']);
 });
 
 

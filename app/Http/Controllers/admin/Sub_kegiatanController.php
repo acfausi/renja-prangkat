@@ -46,6 +46,8 @@ class Sub_kegiatanController extends Controller
             'kode_k' => $request->kode_k,
             'urusan' => $request->urusan,
             'indikator' => $request->indikator,
+            'target_k' => $request->target_k,
+            'target_r' => $request->target_r
             // 'target_k' => $request->target_k
         ]);
         // return redirect('admin/sub_kegiatan');

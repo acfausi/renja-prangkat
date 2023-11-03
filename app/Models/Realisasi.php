@@ -10,9 +10,17 @@ class Realisasi extends Model
     use HasFactory;
     protected $table = 'realisasi';
     protected $primaryKey = 'id_rea';
-    protected $fillable = ['nama_triwulan','rea_k','rea_rp'];
+    protected $fillable = ['rea_k','rea_rp'];
 
+    public function bidang(){
+        return $this->blongsTo(bidang::class);
+    }
     public function sub_kegiatan(){
-        return $this->hasMany(sub_kegiatan::class);
-    } 
+        return $this->blongsTo(Sub_kegiatan::class);
+    }
+    public function target(){
+        return $this->blongsTo(target::class);
+    }
+
+
 }

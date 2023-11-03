@@ -13,6 +13,6 @@ class DshboardController extends Controller
     public function index(){
         $data['jumlahbidang'] = Program::where('bidang_id', auth()->user()->bidang_id)->get();
         return view('bidang.layout.home', $data);
-
+        // dd($data);
     }
 }

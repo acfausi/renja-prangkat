@@ -1,4 +1,4 @@
-@extends('bidang.layout.main')
+@extends('bendahara.layout.b_main')
 
 @section('judul')
     Halaman Home
@@ -10,7 +10,7 @@
 
         <!-- Left side columns -->
         <!-- <div class="col-lg-8">
-                              <div class="row"> -->
+                                <div class="row"> -->
         <div class="col-xxl-3 col-md-4">
             <div class="card info-card sales-card">
                 <div class="filter">
