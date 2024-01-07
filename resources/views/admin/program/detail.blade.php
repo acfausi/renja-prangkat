@@ -65,7 +65,7 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             <!-- <i class="fas fa-table me-1"></i>
-                                                                                                                                    DataTable Example -->
+                                                                                                                                            DataTable Example -->
                             <!-- membuat tombol mengarahkan ke file produk_form.php -->
                         </div>
                         <div class="card-body">
@@ -107,7 +107,7 @@
                                                 <td>{{ $k->kode_k }}</td>
                                                 <td>{{ $k->kode }}</td>
                                                 <td>{{ $k->urusan }}</td>
-                                                <td>{{ $k->indikator }}</td>
+                                                <td> Rp. {{ $k->indikator }}</td>
                                                 <td>{{ $k->target_k }}</td>
                                                 <td>{{ $k->target_r }}</td>
                                                 <td>
@@ -157,7 +157,7 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             <!-- <i class="fas fa-table me-1"></i>
-                                                                                                                                    DataTable Example -->
+                                                                                                                                            DataTable Example -->
                             <!-- membuat tombol mengarahkan ke file produk_form.php -->
                         </div>
                         <div class="card-body">
@@ -408,10 +408,10 @@
         function edit() {
             var id_k = $("#id_k").val();
             var id = $("#id").val();
-            var urusan = $("#sub_urusan").val();
-            var indikator = $("#sub_indikator").val();
-            var target_k = $("#sub_target_k").val();
-            var target_r = $("#sub_target_r").val();
+            var urusan = $("#urusan").val();
+            var indikator = $("#indikator").val();
+            var target_k = $("#target_k").val();
+            var target_r = $("#target_r").val();
             $.ajax({
                 type: "POST",
                 url: '{{ url('admin/program/editaction') }}',

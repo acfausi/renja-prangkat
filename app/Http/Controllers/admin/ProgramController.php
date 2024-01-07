@@ -307,7 +307,7 @@ class ProgramController extends Controller
                     <td>'. $get->indikator .'</td>
                     <td>'. $get->urusan .'</td>
                     <td>'. $get->target_k .'</td>
-                    <td>'. $get->target_r .'</td>
+                    <td>Rp. '. $get->target_r .'</td>
                     <td>    
                     <button onclick="show_edit('.$get->id.')" data-bs-toggle="modal" data-bs-target="#editModal" class="btn btn-primary btn-sm " title="Update"><i
                             class="bi bi-box-arrow-in-up"></i></button>
@@ -335,13 +335,13 @@ class ProgramController extends Controller
             <div class="form-group row">
                 <label for="text3" class="col-4 col-form-label">Urusan</label> 
                 <div class="col-8">
-                <textarea name="urusan" id="sub_urusan"  cols="40" rows="5" class="form-control">'.$sub_kegiatan->urusan.'</textarea>
+                <textarea name="urusan" id="urusan"  cols="40" rows="5" class="form-control">'.$sub_kegiatan->urusan.'</textarea>
                 </div>
             </div> 
             <div class="form-group row">
                 <label for="text3" class="col-4 col-form-label">Indikator</label> 
                 <div class="col-8">
-                <textarea name="indikator" id="sub_indikator" cols="40" rows="5" class="form-control">'.$sub_kegiatan->indikator.'</textarea>
+                <textarea name="indikator" id="indikator" cols="40" rows="5" class="form-control">'.$sub_kegiatan->indikator.'</textarea>
                 </div>
             </div> 
             <div class="form-group row">
